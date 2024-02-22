@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">FamilyGames</string>
     <string name="s_lectionne_ton_jeu">Sélectionne ton jeu !</string>
+    <string name="lancer_la_partie">Lancer la partie</string>
+    <string name="voir_les_scores">Voir les scores</string>
+    <string name="retour">Retour</string>
+    <string name="tumbling_dice">Tumbling Dice</string>
+    <string name="skyjo">Skyjo</string>
+    <string name="level_8">Level 8</string>
 </resources>
