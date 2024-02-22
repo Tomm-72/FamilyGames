@@ -9,26 +9,32 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.example.familygames.R;
+import com.example.familygames.game.Game;
+import com.example.familygames.game.TumblingDice;
+import com.example.familygames.player.Player;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.ArrayList;
 
 public class SetPlayerValuesActivity extends AppCompatActivity {
 
     LinearLayout playersContainer;
     private ImageView currentSelectedImageView;
+    private Uri selectedImageUri;
     private final ActivityResultLauncher<Intent> selectImageLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                     result -> {
                         if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                             Uri selectedImageUri = result.getData().getData();
                             if (currentSelectedImageView != null) {
+                                this.selectedImageUri = selectedImageUri;
                                 currentSelectedImageView.setImageURI(selectedImageUri);
                             }
                         }
@@ -39,29 +45,65 @@ public class SetPlayerValuesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_player_values);
 
-        int nbPlayers = getIntent().getIntExtra("nbPlayers", 2); // Par défaut, 2 joueurs
+        Game selectedGame = getIntent().getParcelableExtra("game");
+        int nbPlayers = getIntent().getIntExtra("nbPlayers", 2);
         playersContainer = findViewById(R.id.playersContainerLayout);
+
+        ArrayList<Player> players = new ArrayList<>();
 
         for (int i = 0; i < nbPlayers; i++) {
             MaterialCardView cardView = createPlayerCard();
             playersContainer.addView(cardView);
+            players.add(new Player("Joueur " + (i + 1)));
         }
         Button startGameButton = findViewById(R.id.startGameButton);
         startGameButton.setOnClickListener(v -> {
-            // Récupérer les noms des joueurs
+            int j=0;
             for (int i = 0; i < playersContainer.getChildCount(); i++) {
+                if(!(playersContainer.getChildAt(i) instanceof MaterialCardView)){
+                    continue;
+                }
+
                 MaterialCardView cardView = (MaterialCardView) playersContainer.getChildAt(i);
                 LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
                 TextInputLayout textInputLayout = (TextInputLayout) linearLayout.getChildAt(0);
                 EditText editText = (EditText) textInputLayout.getEditText();
                 if (editText != null) {
-                    String playerName = editText.getText().toString();
-                    // Enregistrer le nom du joueur
-                    //TODO
+                    players.get(j).setName(editText.getText().toString());
+                    if (selectedImageUri != null) {
+                        players.get(j).setImageUri(selectedImageUri.toString());
+                    }
+
                 }
+                j++;
             }
-            // Démarrer le jeu
-            //TODO
+            switch (selectedGame.getName()){
+                case "Skyjo":
+                    Intent intent = new Intent(SetPlayerValuesActivity.this, SkyjoActivity.class);
+                    intent.putParcelableArrayListExtra("players", players);
+                    startActivity(intent);
+                    break;
+
+                case "Petit Bac":
+                    Intent intent2 = new Intent(SetPlayerValuesActivity.this, PetitBacActivity.class);
+                    intent2.putParcelableArrayListExtra("players", players);
+                    startActivity(intent2);
+                    break;
+
+                case "Tumbling Dice":
+                    Intent intent3 = new Intent(SetPlayerValuesActivity.this, TumblingDice.class);
+                    intent3.putParcelableArrayListExtra("players", players);
+                    startActivity(intent3);
+                    break;
+
+                case "Level8":
+                    Intent intent4 = new Intent(SetPlayerValuesActivity.this, Level8Activity.class);
+                    intent4.putParcelableArrayListExtra("players", players);
+                    startActivity(intent4);
+                    break;
+                default:
+                    break;
+            }
         });
     }
 
