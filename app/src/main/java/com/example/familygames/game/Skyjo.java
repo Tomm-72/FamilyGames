@@ -19,7 +19,7 @@ public class Skyjo extends Game{
                         "Lorsqu’un joueur a révélé toutes ses cartes, le tour se termine puis la manche s’arrête. Les joueurs comptent les points des cartes qui restent devant eux.\n" +
                         "\n" +
                         "Dès qu’un joueur atteint 100 points ou plus, le joueur ayant cumulé le moins de points remporte la partie !",
-                "skyjo.jpg");
+                "skyjo.jpg",8);
     }
 
 

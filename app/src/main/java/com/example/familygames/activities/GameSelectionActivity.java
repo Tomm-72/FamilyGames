@@ -71,42 +71,11 @@ public class GameSelectionActivity extends AppCompatActivity {
                 Button gameButton = new Button(this);
                 gameButton.setText("Jouer");
                 gameButton.setPadding(0, 16, 0, 0);
-                switch(gameName){
-                    case "Tumbling Dice":
-                        //gameButton.setBackgroundResource(R.drawable.tumbling_dice);
-                        gameButton.setOnClickListener(v -> {
-                            Intent gameIntent = new Intent(this, TumblingDiceActivity.class);
-                            gameIntent.putExtra("game", game);
-                            startActivity(gameIntent);
-                        });
-                        break;
-                    case "Skyjo":
-                        //gameButton.setBackgroundResource(R.drawable.skyjo);
-                        gameButton.setOnClickListener(v -> {
-                            Intent gameIntent = new Intent(this, SkyjoActivity.class);
-                            gameIntent.putExtra("game", game);
-                            startActivity(gameIntent);
-                        });
-                        break;
-                    case "Level8":
-                        //gameButton.setBackgroundResource(R.drawable.uno);
-                        gameButton.setOnClickListener(v -> {
-                            Intent gameIntent = new Intent(this, Level8Activity.class);
-                            gameIntent.putExtra("game", game);
-                            startActivity(gameIntent);
-                        });
-                        break;
-                    case "Petit Bac":
-                        //gameButton.setBackgroundResource(R.drawable.dobble);
-                        gameButton.setOnClickListener(v -> {
-                            Intent gameIntent = new Intent(this, PetitBacActivity.class);
-                            gameIntent.putExtra("game", game);
-                            startActivity(gameIntent);
-                        });
-                        break;
-                    default:
-                        //gameButton.setBackgroundResource(R.drawable.skyjo);
-                }
+                gameButton.setOnClickListener(v -> {
+                    Intent gameIntent = new Intent(this, SelectNumberPlayerActivity.class);
+                    gameIntent.putExtra("game", game);
+                    startActivity(gameIntent);
+                });
 
                 cardLinearLayout.addView(gameButton);
 

@@ -7,4 +7,6 @@
     <string name="tumbling_dice">Tumbling Dice</string>
     <string name="skyjo">Skyjo</string>
     <string name="level_8">Level 8</string>
+    <string name="combien_de_joueurs_vont_jouer">Combien de joueurs vont jouer ?</string>
+    <string name="lancer_le_jeu">Lancer le jeu</string>
 </resources>
