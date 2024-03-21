@@ -1,6 +1,7 @@
 package com.example.familygames.activities;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -9,34 +10,41 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.familygames.MainActivity;
 import com.example.familygames.R;
+import com.example.familygames.player.Player;
 
+import java.util.List;
 import java.util.Random;
 
 public class PetitBacActivity extends AppCompatActivity {
 
     TextView textViewLetter, textViewTimer;
-    Button buttonGenerateLetter, buttonGoToGameMenu, buttonViewScores;
+    Button buttonGenerateLetter, buttonGoToGameMenu, buttonViewScores, buttonGoBack;
     CountDownTimer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_petit_bac);
-
+        List<Player> players = getIntent().getParcelableArrayListExtra("players");
         textViewLetter = findViewById(R.id.textViewLetter);
         textViewTimer = findViewById(R.id.textViewTimer);
         buttonGenerateLetter = findViewById(R.id.buttonGenerateLetter);
         buttonGoToGameMenu = findViewById(R.id.buttonGoToGameMenu);
         buttonViewScores = findViewById(R.id.buttonViewScores);
+        buttonGoBack = findViewById(R.id.buttonGoBack);
 
         buttonViewScores.setOnClickListener(v -> {
             //TODO
         });
 
         buttonGoToGameMenu.setOnClickListener(v -> {
-            timer.cancel();
-            finish();
+            if (timer != null) {
+                timer.cancel();
+            }
+            Intent intent = new Intent(PetitBacActivity.this, MainActivity.class);
+            startActivity(intent);
         });
 
         buttonGenerateLetter.setOnClickListener(v -> {
@@ -44,6 +52,13 @@ public class PetitBacActivity extends AppCompatActivity {
             startTimer();
             buttonViewScores.setClickable(false);
             buttonGenerateLetter.setClickable(false);
+        });
+
+        buttonGoBack.setOnClickListener(v -> {
+            if (timer != null) {
+                timer.cancel();
+            }
+            finish();
         });
     }
 

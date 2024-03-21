@@ -1,19 +1,24 @@
 package com.example.familygames.player;
 
-public class Player {
-    private final String name;
+import android.annotation.SuppressLint;
+import android.graphics.drawable.Drawable;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+public class Player implements Parcelable {
+    private String name;
     private int score;
-    private String imageUri; // Pour stocker l'URI de l'image de profil
 
     public Player(String name) {
         this.name = name;
         this.score = 0;
-        this.imageUri = ""; // Initialise sans image
     }
 
     // Getters et Setters
     public void setScore(int score) {
-        this.score = score;
+        this.score += score;
     }
 
     public int getScore() {
@@ -24,11 +29,34 @@ public class Player {
         return name;
     }
 
-    public String getImageUri() {
-        return imageUri;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setImageUri(String imageUri) {
-        this.imageUri = imageUri;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeInt(score);
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+    protected Player(Parcel in) {
+        name = in.readString();
+        score = in.readInt();
+    }
+
+    public static final Creator<Player> CREATOR = new Creator<Player>() {
+        @Override
+        public Player createFromParcel(Parcel in) {
+            return new Player(in);
+        }
+
+        @Override
+        public Player[] newArray(int size) {
+            return new Player[size];
+        }
+    };
 }

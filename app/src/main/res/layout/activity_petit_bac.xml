@@ -2,53 +2,60 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:gravity="center_horizontal">
+    android:padding="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/buttonGoToGameMenu"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/retour"
-            style="?android:attr/buttonBarButtonStyle" />
+            android:text="@string/retour_menu" />
+
+        <Button
+            android:id="@+id/buttonGoBack"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/retour" />
 
         <Button
             android:id="@+id/buttonGenerateLetter"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/lancer_la_partie"
             android:layout_marginStart="16dp"
-            style="?android:attr/buttonBarButtonStyle" />
+            android:text="@string/lancer_la_partie" />
 
         <Button
             android:id="@+id/buttonViewScores"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/voir_les_scores"
             android:layout_marginStart="16dp"
-            style="?android:attr/buttonBarButtonStyle" />
+            android:text="@string/voir_les_scores" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/textViewLetter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="48sp"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="32dp"
-        android:layout_gravity="center_horizontal"/>
+        android:textSize="48sp" />
 
     <TextView
         android:id="@+id/textViewTimer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="36sp"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
-        android:layout_gravity="center_horizontal"/>
+        android:textSize="36sp" />
 </LinearLayout>

@@ -16,53 +16,93 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.example.familygames.R;
+import com.example.familygames.game.Game;
+import com.example.familygames.player.Player;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SetPlayerValuesActivity extends AppCompatActivity {
 
     LinearLayout playersContainer;
     private ImageView currentSelectedImageView;
-    private final ActivityResultLauncher<Intent> selectImageLauncher =
-            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-                    result -> {
-                        if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                            Uri selectedImageUri = result.getData().getData();
-                            if (currentSelectedImageView != null) {
-                                currentSelectedImageView.setImageURI(selectedImageUri);
-                            }
-                        }
-                    });
+    private List<Player> players = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_player_values);
 
-        int nbPlayers = getIntent().getIntExtra("nbPlayers", 2); // Par défaut, 2 joueurs
+        int nbPlayers = getIntent().getIntExtra("nbPlayers", 2);
+
+        createPlayers(this.players, nbPlayers);
+
+        Game game = getIntent().getParcelableExtra("game");
+        assert game != null;
+        Intent intent = setGame(game);
+
         playersContainer = findViewById(R.id.playersContainerLayout);
 
         for (int i = 0; i < nbPlayers; i++) {
             MaterialCardView cardView = createPlayerCard();
             playersContainer.addView(cardView);
         }
+
         Button startGameButton = findViewById(R.id.startGameButton);
         startGameButton.setOnClickListener(v -> {
             // Récupérer les noms des joueurs
-            for (int i = 0; i < playersContainer.getChildCount(); i++) {
+            retrievePlayerNames(this.players, intent);
+
+            assert intent != null;
+            intent.putExtra("players", (ArrayList<Player>) this.players);
+            startActivity(intent);
+        });
+    }
+
+    private void createPlayers(List<Player> players, int nbPlayers) {
+        for (int i = 0; i < nbPlayers; i++) {
+            Player player = new Player("Joueur " + (i + 1));
+            players.add(player);
+        }
+    }
+
+    private Intent setGame(Game game) {
+        switch (game.getName()) {
+            case "Skyjo":
+                Intent intent = new Intent(SetPlayerValuesActivity.this, SkyjoActivity.class);
+                return intent;
+            case "Petit Bac":
+                Intent intent1 = new Intent(SetPlayerValuesActivity.this, PetitBacActivity.class);
+                return intent1;
+            case "Level8":
+                Intent intent2 = new Intent(SetPlayerValuesActivity.this, Level8Activity.class);
+                return intent2;
+            case "Tumbling Dice":
+                Intent intent3 = new Intent(SetPlayerValuesActivity.this, TumblingDiceActivity.class);
+                return intent3;
+            default:
+                setTitle("Jeu");
+                return null;
+        }
+    }
+
+    private void retrievePlayerNames(List<Player> players, Intent intent) {
+        int j=0;
+        for (int i = 0; i < playersContainer.getChildCount(); i++) {
+            if (playersContainer.getChildAt(i) instanceof MaterialCardView) {
                 MaterialCardView cardView = (MaterialCardView) playersContainer.getChildAt(i);
                 LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
                 TextInputLayout textInputLayout = (TextInputLayout) linearLayout.getChildAt(0);
                 EditText editText = (EditText) textInputLayout.getEditText();
-                if (editText != null) {
+                if (editText != null && !(editText.getText().toString().isEmpty())) {
                     String playerName = editText.getText().toString();
-                    // Enregistrer le nom du joueur
-                    //TODO
+                    players.get(j).setName(playerName);
                 }
+                j++;
             }
-            // Démarrer le jeu
-            //TODO
-        });
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -85,25 +125,8 @@ public class SetPlayerValuesActivity extends AppCompatActivity {
         editText.setHint("Nom du joueur");
         textInputLayout.addView(editText);
 
-        // Ajout d'un ImageView pour l'image de profil
-        ImageView profileImageView = new ImageView(this);
-        profileImageView.setLayoutParams(new LinearLayout.LayoutParams(100, 100));
-        profileImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        profileImageView.setImageResource(android.R.drawable.ic_menu_gallery); // Image par défaut
-
-        // Ajout d'un bouton pour sélectionner l'image
-        Button selectImageButton = new Button(this);
-        selectImageButton.setText("Sélectionner une image");
-        selectImageButton.setOnClickListener(v -> {
-            currentSelectedImageView = profileImageView; // Mettre à jour la référence
-            openGallery();
-        });
-
-
         // Ajouter les éléments au LinearLayout
         linearLayout.addView(textInputLayout);
-        linearLayout.addView(profileImageView);
-        linearLayout.addView(selectImageButton);
 
         // Ajouter le LinearLayout au CardView
         cardView.addView(linearLayout);
@@ -111,8 +134,4 @@ public class SetPlayerValuesActivity extends AppCompatActivity {
         return cardView;
     }
 
-    private void openGallery() {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        selectImageLauncher.launch(intent);
-    }
 }

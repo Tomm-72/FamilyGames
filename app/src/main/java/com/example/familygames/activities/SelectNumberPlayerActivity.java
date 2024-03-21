@@ -28,7 +28,7 @@ public class SelectNumberPlayerActivity extends AppCompatActivity {
         if (maxNbPlayers == -1) {
             NumberPicker numberPicker = new NumberPicker(this);
             numberPicker.setMinValue(2);
-            numberPicker.setMaxValue(500);
+            numberPicker.setMaxValue(20);
             Button button = new Button(this);
             button.setText("Valider");
             button.setOnClickListener(v -> {
