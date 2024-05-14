@@ -1,34 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linear_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#919191"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:padding="16dp">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:gravity="clip_horizontal|center|fill_horizontal"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/buttonGoToGameMenu"
-            style="?android:attr/buttonBarButtonStyle"
+            style="@style/background"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/retour_menu" />
 
         <Button
             android:id="@+id/buttonGoBack"
-            style="?android:attr/buttonBarButtonStyle"
+            style="@style/background"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:text="@string/retour" />
 
         <Button
             android:id="@+id/buttonGenerateLetter"
-            style="?android:attr/buttonBarButtonStyle"
+            style="@style/background"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -49,6 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="32dp"
+        android:textColor="#FFFFFF"
         android:textSize="48sp" />
 
     <TextView
@@ -57,5 +61,13 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
+        android:textColor="#FFFFFF"
         android:textSize="36sp" />
+
+    <Chronometer
+        android:id="@+id/chronometer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="48sp" />
+
 </LinearLayout>

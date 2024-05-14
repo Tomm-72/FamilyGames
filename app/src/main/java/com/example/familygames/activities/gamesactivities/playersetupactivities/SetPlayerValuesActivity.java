@@ -1,21 +1,19 @@
-package com.example.familygames.activities;
+package com.example.familygames.activities.gamesactivities.playersetupactivities;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.example.familygames.R;
+import com.example.familygames.activities.gamesactivities.level8activities.Level8Activity;
+import com.example.familygames.activities.gamesactivities.petitbacactivities.PetitBacActivity;
+import com.example.familygames.activities.gamesactivities.skyjoactivities.SkyjoActivity;
+import com.example.familygames.activities.gamesactivities.tumblingdiceactivities.TumblingDiceActivity;
 import com.example.familygames.game.Game;
 import com.example.familygames.player.Player;
 import com.google.android.material.card.MaterialCardView;
@@ -27,7 +25,6 @@ import java.util.List;
 public class SetPlayerValuesActivity extends AppCompatActivity {
 
     LinearLayout playersContainer;
-    private ImageView currentSelectedImageView;
     private List<Player> players = new ArrayList<>();
 
     @Override
@@ -53,7 +50,7 @@ public class SetPlayerValuesActivity extends AppCompatActivity {
         Button startGameButton = findViewById(R.id.startGameButton);
         startGameButton.setOnClickListener(v -> {
             // Récupérer les noms des joueurs
-            retrievePlayerNames(this.players, intent);
+            retrievePlayerNames(this.players);
 
             assert intent != null;
             intent.putExtra("players", (ArrayList<Player>) this.players);
@@ -71,24 +68,20 @@ public class SetPlayerValuesActivity extends AppCompatActivity {
     private Intent setGame(Game game) {
         switch (game.getName()) {
             case "Skyjo":
-                Intent intent = new Intent(SetPlayerValuesActivity.this, SkyjoActivity.class);
-                return intent;
+                return new Intent(this, SkyjoActivity.class);
             case "Petit Bac":
-                Intent intent1 = new Intent(SetPlayerValuesActivity.this, PetitBacActivity.class);
-                return intent1;
+                return new Intent(this, PetitBacActivity.class);
             case "Level8":
-                Intent intent2 = new Intent(SetPlayerValuesActivity.this, Level8Activity.class);
-                return intent2;
+                return new Intent(this, Level8Activity.class);
             case "Tumbling Dice":
-                Intent intent3 = new Intent(SetPlayerValuesActivity.this, TumblingDiceActivity.class);
-                return intent3;
+                return new Intent(this, TumblingDiceActivity.class);
             default:
                 setTitle("Jeu");
                 return null;
         }
     }
 
-    private void retrievePlayerNames(List<Player> players, Intent intent) {
+    private void retrievePlayerNames(List<Player> players) {
         int j=0;
         for (int i = 0; i < playersContainer.getChildCount(); i++) {
             if (playersContainer.getChildAt(i) instanceof MaterialCardView) {

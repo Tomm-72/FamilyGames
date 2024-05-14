@@ -15,28 +15,49 @@
         android:theme="@style/Theme.FamilyGames"
         tools:targetApi="31">
         <activity
-            android:name=".activities.TumblingDiceThirdActivity"
+            android:name=".activities.gamesactivities.tumblingdiceactivities.TumblingDiceScoreActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.TumblingDiceSecondActivity"
+            android:name=".activities.gamesactivities.endgames.TumblingDiceEndGameActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.SetPlayerValuesActivity"
+            android:name=".activities.gamesactivities.endgames.SkyjoEndGameActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.SelectNumberPlayerActivity"
+            android:name=".activities.gamesactivities.skyjoactivities.SkyjoScoreActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.SkyjoActivity"
+            android:name=".activities.gamesactivities.skyjoactivities.SkyjoGameActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.TumblingDiceActivity"
+            android:name=".activities.gamesactivities.endgames.Level8EndGameActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.Level8Activity"
+            android:name=".activities.gamesactivities.level8activities.Level8GameActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.PetitBacActivity"
+            android:name=".activities.gamesactivities.tumblingdiceactivities.TumblingDiceThirdActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.gamesactivities.tumblingdiceactivities.TumblingDiceSecondActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.gamesactivities.playersetupactivities.SetPlayerValuesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.gamesactivities.playersetupactivities.SelectNumberPlayerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.gamesactivities.skyjoactivities.SkyjoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.gamesactivities.tumblingdiceactivities.TumblingDiceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.gamesactivities.level8activities.Level8Activity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.gamesactivities.petitbacactivities.PetitBacActivity"
             android:exported="false" />
         <activity
             android:name=".activities.RankActivity"

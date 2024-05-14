@@ -1,11 +1,13 @@
-package com.example.familygames.activities;
+package com.example.familygames.activities.gamesactivities.petitbacactivities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.CountDownTimer;
+import android.os.SystemClock;
 import android.widget.Button;
+import android.widget.Chronometer;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,28 +23,29 @@ public class PetitBacActivity extends AppCompatActivity {
 
     TextView textViewLetter, textViewTimer;
     Button buttonGenerateLetter, buttonGoToGameMenu, buttonViewScores, buttonGoBack;
-    CountDownTimer timer;
+    Chronometer chronometer;
+    LinearLayout linearLayout;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_petit_bac);
-        List<Player> players = getIntent().getParcelableArrayListExtra("players");
+        linearLayout = findViewById(R.id.linear_layout);
         textViewLetter = findViewById(R.id.textViewLetter);
         textViewTimer = findViewById(R.id.textViewTimer);
         buttonGenerateLetter = findViewById(R.id.buttonGenerateLetter);
         buttonGoToGameMenu = findViewById(R.id.buttonGoToGameMenu);
         buttonViewScores = findViewById(R.id.buttonViewScores);
         buttonGoBack = findViewById(R.id.buttonGoBack);
+        chronometer = findViewById(R.id.chronometer);
+        chronometer.setVisibility(Chronometer.INVISIBLE);
 
         buttonViewScores.setOnClickListener(v -> {
             //TODO
         });
 
         buttonGoToGameMenu.setOnClickListener(v -> {
-            if (timer != null) {
-                timer.cancel();
-            }
             Intent intent = new Intent(PetitBacActivity.this, MainActivity.class);
             startActivity(intent);
         });
@@ -52,14 +55,20 @@ public class PetitBacActivity extends AppCompatActivity {
             startTimer();
             buttonViewScores.setClickable(false);
             buttonGenerateLetter.setClickable(false);
+            Button buttonValidate = new Button(this);
+            buttonValidate.setText("J'ai fini!");
+            linearLayout.addView(buttonValidate);
+            buttonValidate.setOnClickListener(v1 -> {
+                chronometer.stop();
+                playSound();
+                buttonViewScores.setClickable(true);
+                buttonGenerateLetter.setClickable(true);
+                linearLayout.removeView(buttonValidate);
+            });
+
         });
 
-        buttonGoBack.setOnClickListener(v -> {
-            if (timer != null) {
-                timer.cancel();
-            }
-            finish();
-        });
+        buttonGoBack.setOnClickListener(v -> finish());
     }
 
     @SuppressLint("SetTextI18n")
@@ -70,20 +79,9 @@ public class PetitBacActivity extends AppCompatActivity {
     }
 
     private void startTimer() {
-        timer = new CountDownTimer(60000, 1000) {
-            @SuppressLint("SetTextI18n")
-            public void onTick(long millisUntilFinished) {
-                textViewTimer.setText("Temps restant: " + millisUntilFinished / 1000);
-            }
-
-            @SuppressLint("SetTextI18n")
-            public void onFinish() {
-                textViewTimer.setText("C'est fini !");
-                playSound();
-                buttonGenerateLetter.setClickable(true);
-                buttonViewScores.setClickable(true);
-            }
-        }.start();
+        chronometer.setVisibility(Chronometer.VISIBLE);
+        chronometer.setBase(SystemClock.elapsedRealtime());
+        chronometer.start();
     }
     private void playSound() {
         MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.buzzer);

@@ -1,4 +1,4 @@
-package com.example.familygames.activities;
+package com.example.familygames.activities.gamesactivities.playersetupactivities;
 
 import androidx.appcompat.app.AppCompatActivity;
 

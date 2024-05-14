@@ -1,11 +1,8 @@
-package com.example.familygames.activities;
+package com.example.familygames.activities.gamesactivities.tumblingdiceactivities;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -14,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.familygames.R;
 import com.example.familygames.player.Player;
 import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,17 +23,21 @@ public class TumblingDiceActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tumbling_dice);
-        List<Player> players = getIntent().getParcelableArrayListExtra("players");
+        ArrayList<Player> players = getIntent().getParcelableArrayListExtra("players");
+        assert players != null;
         Collections.shuffle(players);
         playersContainer = findViewById(R.id.playersContainer);
         for (int i = 0; i < players.size(); i++) {
             MaterialCardView cardView = createPlayerCard(players.get(i));
+            //add a padding to the card view
+            cardView.setPadding(16, 16, 16, 16);
+
             playersContainer.addView(cardView);
-        };
+        }
         launchGame = findViewById(R.id.launchGame);
         launchGame.setOnClickListener(v -> {
             Intent intent = new Intent(this, TumblingDiceSecondActivity.class);
-            intent.putExtra("players", (ArrayList<Player>) players);
+            intent.putExtra("players", players);
             startActivity(intent);
         });
     }
@@ -57,6 +57,8 @@ public class TumblingDiceActivity extends AppCompatActivity {
         // Ajout du nom du joueur
         TextView textView = new TextView(this);
         textView.setText(player.getName());
+        textView.setTextSize(24);
+        textView.setPadding(20, 16, 20, 16);
         linearLayout.addView(textView);
 
         // Ajouter le LinearLayout au CardView

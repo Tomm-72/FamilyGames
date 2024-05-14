@@ -1,7 +1,8 @@
-package com.example.familygames.activities;
+package com.example.familygames.activities.gamesactivities.tumblingdiceactivities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -30,7 +31,6 @@ public class TumblingDiceSecondActivity extends AppCompatActivity {
             Player lastPlayer = players.get(players.size() - 1);
             players.remove(players.size() - 1);
             players.add(0, lastPlayer);
-            System.out.print(players);
         }
         playerName = findViewById(R.id.playerName);
         nextPlayer = findViewById(R.id.nextPlayer);
@@ -40,11 +40,10 @@ public class TumblingDiceSecondActivity extends AppCompatActivity {
 
         updateUI();
 
-        nextPlayer.setOnClickListener(v -> {
-            advanceGame();
-        });
+        nextPlayer.setOnClickListener(v -> advanceGame());
     }
 
+    @SuppressLint("SetTextI18n")
     private void updateUI() {
         // Assurez-vous qu'il reste des tours à jouer
         if (turnsRemaining > 0) {

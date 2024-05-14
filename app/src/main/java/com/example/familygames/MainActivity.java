@@ -19,20 +19,28 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initButtons();
+    }
 
+    private void initButtons() {
+        initShowGameButton();
+        initShowRankButton();
+    }
+
+    private void initShowGameButton() {
         Button showGameButton = findViewById(R.id.showGameButton);
         showGameButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, GameSelectionActivity.class);
             intent.putParcelableArrayListExtra("gameList", gameList);
             startActivity(intent);
         });
+    }
 
+    private void initShowRankButton() {
         Button showRankButton = findViewById(R.id.showRankButton);
         showRankButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, RankActivity.class);
-            //intent.putExtra("gameList", (Serializable) gameList);
             startActivity(intent);
         });
-
     }
 }

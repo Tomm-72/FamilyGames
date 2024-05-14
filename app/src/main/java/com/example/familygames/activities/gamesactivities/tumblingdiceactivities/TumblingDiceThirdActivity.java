@@ -1,4 +1,4 @@
-package com.example.familygames.activities;
+package com.example.familygames.activities.gamesactivities.tumblingdiceactivities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,28 +6,31 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.familygames.R;
+import com.example.familygames.activities.gamesactivities.endgames.TumblingDiceEndGameActivity;
 import com.example.familygames.player.Player;
 
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 public class TumblingDiceThirdActivity extends AppCompatActivity {
 
     private LinearLayout playersContainer;
     private List<Player> players;
-    private List<Player> over100PointsPlayers = new ArrayList<>();
-    private Button calculateScoresButton;
+    private final List<Player> over100PointsPlayers = new ArrayList<>();
+    private final Map<Integer, List<Spinner>> playerMultiplierSpinners = new HashMap<>();
+
+    private final Map<Integer, List<Spinner>> playerDiceValueSpinners = new HashMap<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +38,7 @@ public class TumblingDiceThirdActivity extends AppCompatActivity {
         setContentView(R.layout.activity_tumbling_dice_third);
         players = getIntent().getParcelableArrayListExtra("players");
         playersContainer = findViewById(R.id.playersContainer);
-        calculateScoresButton = findViewById(R.id.calculateScoresButton);
+        Button calculateScoresButton = findViewById(R.id.calculateScoresButton);
         calculateScoresButton.setOnClickListener(v -> {
             calculateScores();
             isGameOver();
@@ -47,18 +50,21 @@ public class TumblingDiceThirdActivity extends AppCompatActivity {
         for (int i = 0; i < players.size(); i++) {
             Player player = players.get(i);
             int score = 0;
-            for (int j = 1; j <= 5; j++) {
-                int multiplierSpinnerId = getResources().getIdentifier("multiplierSpinner" + j, "id", getPackageName());
-                Spinner multiplierSpinner = findViewById(multiplierSpinnerId);
-                int multiplier = Integer.parseInt(multiplierSpinner.getSelectedItem().toString().replace("x", ""));
 
-                int diceValueSpinnerId = getResources().getIdentifier("diceValue" + j, "id", getPackageName());
-                Spinner diceValueSpinner = findViewById(diceValueSpinnerId);
+            List<Spinner> multipliersSpinnersForPlayer = playerMultiplierSpinners.get(player.getId());
+            List<Spinner> diceValuesSpinnersForPlayer = playerDiceValueSpinners.get(player.getId());
+
+            for (int j = 0; j < 5; j++) {
+                assert multipliersSpinnersForPlayer != null;
+                Spinner multiplierSpinner = multipliersSpinnersForPlayer.get(j);
+                assert diceValuesSpinnersForPlayer != null;
+                Spinner diceValueSpinner = diceValuesSpinnersForPlayer.get(j);
+                int multiplier = Integer.parseInt(multiplierSpinner.getSelectedItem().toString().replace("x", ""));
                 int diceValue = Integer.parseInt(diceValueSpinner.getSelectedItem().toString());
 
                 score += multiplier * diceValue;
             }
-            player.setScore(score);
+            player.addToScore(score);
             if (player.getScore() >= 100) {
                 over100PointsPlayers.add(player);
             }
@@ -73,12 +79,13 @@ public class TumblingDiceThirdActivity extends AppCompatActivity {
                     winner = player;
                 }
             }
-            TextView winnerTextView = new TextView(this);
-            winnerTextView.setText(String.format("Le gagnant est %s avec %d points", winner.getName(), winner.getScore()));
-            playersContainer.addView(winnerTextView);
-            calculateScoresButton.setEnabled(false);
+            Intent intent = new Intent(this, TumblingDiceEndGameActivity.class);
+            intent.putExtra("players", (ArrayList<Player>) players);
+            intent.putExtra("winner", winner);
+            intent.putExtra("isGameInProgress", false);
+            startActivity(intent);
         } else {
-            Intent intent = new Intent(this, TumblingDiceSecondActivity.class);
+            Intent intent = new Intent(this, TumblingDiceScoreActivity.class);
             intent.putExtra("players", (ArrayList<Player>) players);
             intent.putExtra("isGameInProgress", true);
             startActivity(intent);
@@ -98,10 +105,11 @@ public class TumblingDiceThirdActivity extends AppCompatActivity {
         }
 
         for (int i = 0; i < players.size(); i++) {
+            Player player = players.get(i);
             View playerView = LayoutInflater.from(this).inflate(R.layout.player_score_entry, playersContainer, false);
 
             TextView playerName = playerView.findViewById(R.id.playerName);
-            playerName.setText(String.format("%s : ", players.get(i).getName()));
+            playerName.setText(String.format("%s : ", player.getName()));
 
             ArrayAdapter<String> multiplierAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, multiplierStrings);
             multiplierAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -109,16 +117,34 @@ public class TumblingDiceThirdActivity extends AppCompatActivity {
             ArrayAdapter<String> diceValueAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, diceValueStrings);
             diceValueAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-            for (int j = 1; j <= 5; j++) {
-                int multiplierSpinnerId = getResources().getIdentifier("multiplierSpinner" + j, "id", getPackageName());
-                Spinner multiplierSpinner = playerView.findViewById(multiplierSpinnerId);
-                multiplierSpinner.setAdapter(multiplierAdapter);
+            // Créer les listes pour conserver les références aux Spinner pour ce joueur
+            List<Spinner> playerMultipliersSpinners = new ArrayList<>();
+            List<Spinner> playerDiceValuesSpinners = new ArrayList<>();
 
-                int diceValueSpinnerId = getResources().getIdentifier("diceValue" + j, "id", getPackageName());
-                Spinner diceValueSpinner = playerView.findViewById(diceValueSpinnerId);
+            // Le conteneur de layout pour tous les dés/multiplicateurs de ce joueur
+            LinearLayout diceAndMultiplierContainer = playerView.findViewById(R.id.diceAndMultiplierContainer);
+
+            // Assumons que pour chaque dé, nous avons un LinearLayout horizontal avec deux Spinners : un pour la valeur du dé et un pour le multiplicateur
+            for (int j = 0; j < 5; j++) {
+                // Obtenir le LinearLayout pour le dé spécifique
+                LinearLayout diceLayout = (LinearLayout) diceAndMultiplierContainer.getChildAt(j +1);
+
+                // Le Spinner pour la valeur du dé est le premier élément dans ce LinearLayout
+                Spinner diceValueSpinner = (Spinner) diceLayout.getChildAt(1);
                 diceValueSpinner.setAdapter(diceValueAdapter);
+                playerDiceValuesSpinners.add(diceValueSpinner);
+
+                // Le Spinner pour le multiplicateur est le deuxième élément dans ce LinearLayout
+                Spinner multiplierSpinner = (Spinner) diceLayout.getChildAt(2);
+                multiplierSpinner.setAdapter(multiplierAdapter);
+                playerMultipliersSpinners.add(multiplierSpinner);
             }
 
+            // Associer les spinners à ce joueur en utilisant son identifiant
+            playerMultiplierSpinners.put(player.getId(), playerMultipliersSpinners);
+            playerDiceValueSpinners.put(player.getId(), playerDiceValuesSpinners);
+
+            // Ajouter la vue complète du joueur au conteneur
             playersContainer.addView(playerView);
         }
     }

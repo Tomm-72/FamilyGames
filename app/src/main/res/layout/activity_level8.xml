@@ -4,52 +4,80 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.SkyjoActivity">
+    android:background="#919191"
+    tools:context=".activities.gamesactivities.skyjoactivities.SkyjoActivity">
+
+    <!-- Add the image of the level and under Level 1 -->
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="A quel niveau souhaitez-vous jouer ?"
+        android:text="@string/a_quel_niveau_souhaitez_vous_jouer"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-    <!-- Add the image of the level and under Level 1 -->
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/level1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-    <Button
-        android:id="@+id/buttonLevel1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Niveau 1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.1" />
 
     <!-- Add the image of the level and under Level 2 -->
-    <ImageView
-        android:id="@+id/imageView2"
+
+    <TextView
+        android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/level2"
+        android:text="@string/level_8"
+        android:textColor="#FFFFFF"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonLevel1" />
-    <Button
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Niveau 2"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.23">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="184dp"
+            android:layout_height="247dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/level1"
+            android:contentDescription="@string/niveau_1"/>
+
+        <Button
+            android:id="@+id/buttonLevel1"
+            style="@style/background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/niveau_1" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="182dp"
+            android:layout_height="240dp"
+            android:layout_marginTop="12dp"
+            android:src="@drawable/level2"
+            android:contentDescription="@string/niveau_2" />
+
+        <Button
+            android:id="@+id/buttonLevel2"
+            style="@style/background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/niveau_2" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

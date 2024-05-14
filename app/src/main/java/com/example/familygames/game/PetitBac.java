@@ -4,11 +4,8 @@ public class PetitBac extends Game {
     public PetitBac() {
         super(
                 "Petit Bac",
-                "A word game where players have to come up with words that start with a specific letter and fit into different categories.",
-                "1. The game is played in rounds. Each round, a letter is chosen and a list of categories is given.\n" +
-                        "2. Players have to come up with a word that starts with the chosen letter and fits into each category.\n" +
-                        "3. Players get points for each unique word they come up with.\n" +
-                        "4. The game ends after a set number of rounds and the player with the most points wins.",
+                "Le but du jeu est de trouver un mot pour chaque catégorie avant la fin du temps imparti. Les joueurs doivent trouver un mot pour chaque catégorie commençant par la lettre tirée au sort. Le premier joueur à trouver un mot pour chaque catégorie gagne le tour.",
+                "Le jeu se joue en plusieurs manches. À chaque manche, un joueur tire une lettre au hasard. Les joueurs doivent trouver un mot pour chaque catégorie commençant par la lettre tirée au sort. Le premier joueur à trouver un mot pour chaque catégorie gagne le tour. Les joueurs marquent des points en fonction du nombre de mots trouvés. Le joueur avec le plus de points à la fin du jeu gagne.",
                 "petitbac.jpg"
         );
     }

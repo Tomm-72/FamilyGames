@@ -4,41 +4,63 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#919191"
     tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/homePageTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Que voulez-vous faire ?"
+        android:fontFamily="sans-serif"
+        android:text="@string/family_game"
+        android:textColor="#FFFFFF"
+        android:textSize="48sp"
+        android:textStyle="bold"
+        android:typeface="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.209" />
+        app:layout_constraintVertical_bias="0.096" />
 
     <Button
         android:id="@+id/showGameButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Voir les jeux"
+        android:background="@drawable/button_background"
+        android:text="@string/voir_les_jeux"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.553" />
+        app:layout_constraintVertical_bias="0.462" />
 
     <Button
         android:id="@+id/showRankButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Voir le classement"
+        android:background="@drawable/button_background"
+        android:text="@string/voir_le_classement"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/showGameButton"
-        app:layout_constraintVertical_bias="0.07" />
+        app:layout_constraintVertical_bias="0.218" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/un_outil_pour_des_moments_sous_tension"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/homePageTitle" />
 </androidx.constraintlayout.widget.ConstraintLayout>

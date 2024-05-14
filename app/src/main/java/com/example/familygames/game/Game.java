@@ -73,20 +73,5 @@ public class Game implements Parcelable {
     public int getMinNbPlayers() {
         return minNbPlayers;
     }
-    public String getRules() {
-        return rules;
-    }
-    public String getImage() {
-        return image;
-    }
-    public void showRules() {
-        System.out.println(rules);
-    }
-    public void showDescription() {
-        System.out.println(description);
-    }
-    public void showImage() {
-        System.out.println(image);
-    }
 
 }

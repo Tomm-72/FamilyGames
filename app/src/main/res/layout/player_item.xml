@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/playerNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/playerLevelImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="Level of the player"/>
+
+    <RadioGroup
+        android:id="@+id/playerStatusRadioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="20sp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="20sp"
+            android:checked="false"
+            android:text="@string/j_ai_fais_mon_contrat"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="20sp"
+            android:buttonTint="#FFFFFF"
+            android:text="@string/j_ai_gagn"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp" />
+
+    </RadioGroup>
+
+</LinearLayout>
